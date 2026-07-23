@@ -1,0 +1,289 @@
+index,feature_id,name_jp,description,type
+0,Column_0,好中球数 (直近),直近の好中球数 (mm3),numerical
+1,Column_1,白血球数 (直近),直近の白血球数 (/uL),numerical
+2,Column_2,年齢,患者の年齢,numerical
+3,Column_3,身長,患者の身長 (cm),numerical
+4,Column_4,体重,患者の体重 (kg),numerical
+5,Column_5,体温,直近の体温 (℃),numerical
+6,Column_6,脈拍,直近の脈拍 (回/分),numerical
+7,Column_7,呼吸数,直近の呼吸数 (回/分),numerical
+8,Column_8,収縮期血圧,収縮期血圧 (mmHg),numerical
+9,Column_9,拡張期血圧,拡張期血圧 (mmHg),numerical
+10,Column_10,薬剤 1190402,YJコード: 1190402 の投与量,numerical
+11,Column_11,薬剤 1214405,YJコード: 1214405 の投与量,numerical
+12,Column_12,薬剤 1317715,YJコード: 1317715 の投与量,numerical
+13,Column_13,薬剤 1319401,YJコード: 1319401 の投与量,numerical
+14,Column_14,薬剤 2399402,YJコード: 2399402 の投与量,numerical
+15,Column_15,薬剤 2399403,YJコード: 2399403 の投与量,numerical
+16,Column_16,薬剤 2399404,YJコード: 2399404 の投与量,numerical
+17,Column_17,薬剤 2454002,YJコード: 2454002 の投与量,numerical
+18,Column_18,薬剤 2454405,YJコード: 2454405 の投与量,numerical
+19,Column_19,薬剤 2478002,YJコード: 2478002 の投与量,numerical
+20,Column_20,薬剤 2499406,YJコード: 2499406 の投与量,numerical
+21,Column_21,薬剤 2499407,YJコード: 2499407 の投与量,numerical
+22,Column_22,薬剤 2499412,YJコード: 2499412 の投与量,numerical
+23,Column_23,薬剤 3919401,YJコード: 3919401 の投与量,numerical
+24,Column_24,薬剤 3929407,YJコード: 3929407 の投与量,numerical
+25,Column_25,薬剤 3929410,YJコード: 3929410 の投与量,numerical
+26,Column_26,薬剤 3999423,YJコード: 3999423 の投与量,numerical
+27,Column_27,薬剤 3999429,YJコード: 3999429 の投与量,numerical
+28,Column_28,薬剤 3999445,YJコード: 3999445 の投与量,numerical
+29,Column_29,薬剤 3999462,YJコード: 3999462 の投与量,numerical
+30,Column_30,薬剤 4211002,YJコード: 4211002 の投与量,numerical
+31,Column_31,薬剤 4211401,YJコード: 4211401 の投与量,numerical
+32,Column_32,薬剤 4211402,YJコード: 4211402 の投与量,numerical
+33,Column_33,薬剤 4212400,YJコード: 4212400 の投与量,numerical
+34,Column_34,薬剤 4213400,YJコード: 4213400 の投与量,numerical
+35,Column_35,薬剤 4219002,YJコード: 4219002 の投与量,numerical
+36,Column_36,薬剤 4219003,YJコード: 4219003 の投与量,numerical
+37,Column_37,薬剤 4219004,YJコード: 4219004 の投与量,numerical
+38,Column_38,薬剤 4219400,YJコード: 4219400 の投与量,numerical
+39,Column_39,薬剤 4219401,YJコード: 4219401 の投与量,numerical
+40,Column_40,薬剤 4219402,YJコード: 4219402 の投与量,numerical
+41,Column_41,薬剤 4219403,YJコード: 4219403 の投与量,numerical
+42,Column_42,薬剤 4219404,YJコード: 4219404 の投与量,numerical
+43,Column_43,薬剤 4219405,YJコード: 4219405 の投与量,numerical
+44,Column_44,薬剤 4219406,YJコード: 4219406 の投与量,numerical
+45,Column_45,薬剤 4221001,YJコード: 4221001 の投与量,numerical
+46,Column_46,薬剤 4222001,YJコード: 4222001 の投与量,numerical
+47,Column_47,薬剤 4222400,YJコード: 4222400 の投与量,numerical
+48,Column_48,薬剤 4223004,YJコード: 4223004 の投与量,numerical
+49,Column_49,薬剤 4223005,YJコード: 4223005 の投与量,numerical
+50,Column_50,薬剤 4223401,YJコード: 4223401 の投与量,numerical
+51,Column_51,薬剤 4223701,YJコード: 4223701 の投与量,numerical
+52,Column_52,薬剤 4224401,YJコード: 4224401 の投与量,numerical
+53,Column_53,薬剤 4224403,YJコード: 4224403 の投与量,numerical
+54,Column_54,薬剤 4229001,YJコード: 4229001 の投与量,numerical
+55,Column_55,薬剤 4229100,YJコード: 4229100 の投与量,numerical
+56,Column_56,薬剤 4229101,YJコード: 4229101 の投与量,numerical
+57,Column_57,薬剤 4229400,YJコード: 4229400 の投与量,numerical
+58,Column_58,薬剤 4229401,YJコード: 4229401 の投与量,numerical
+59,Column_59,薬剤 4229402,YJコード: 4229402 の投与量,numerical
+60,Column_60,薬剤 4229403,YJコード: 4229403 の投与量,numerical
+61,Column_61,薬剤 4231400,YJコード: 4231400 の投与量,numerical
+62,Column_62,薬剤 4233400,YJコード: 4233400 の投与量,numerical
+63,Column_63,薬剤 4234400,YJコード: 4234400 の投与量,numerical
+64,Column_64,薬剤 4234402,YJコード: 4234402 の投与量,numerical
+65,Column_65,薬剤 4235400,YJコード: 4235400 の投与量,numerical
+66,Column_66,薬剤 4235401,YJコード: 4235401 の投与量,numerical
+67,Column_67,薬剤 4235402,YJコード: 4235402 の投与量,numerical
+68,Column_68,薬剤 4235403,YJコード: 4235403 の投与量,numerical
+69,Column_69,薬剤 4235404,YJコード: 4235404 の投与量,numerical
+70,Column_70,薬剤 4235405,YJコード: 4235405 の投与量,numerical
+71,Column_71,薬剤 4235406,YJコード: 4235406 の投与量,numerical
+72,Column_72,薬剤 4239400,YJコード: 4239400 の投与量,numerical
+73,Column_73,薬剤 4239401,YJコード: 4239401 の投与量,numerical
+74,Column_74,薬剤 4240001,YJコード: 4240001 の投与量,numerical
+75,Column_75,薬剤 4240400,YJコード: 4240400 の投与量,numerical
+76,Column_76,薬剤 4240401,YJコード: 4240401 の投与量,numerical
+77,Column_77,薬剤 4240402,YJコード: 4240402 の投与量,numerical
+78,Column_78,薬剤 4240403,YJコード: 4240403 の投与量,numerical
+79,Column_79,薬剤 4240404,YJコード: 4240404 の投与量,numerical
+80,Column_80,薬剤 4240405,YJコード: 4240405 の投与量,numerical
+81,Column_81,薬剤 4240406,YJコード: 4240406 の投与量,numerical
+82,Column_82,薬剤 4240407,YJコード: 4240407 の投与量,numerical
+83,Column_83,薬剤 4240408,YJコード: 4240408 の投与量,numerical
+84,Column_84,薬剤 4240409,YJコード: 4240409 の投与量,numerical
+85,Column_85,薬剤 4240410,YJコード: 4240410 の投与量,numerical
+86,Column_86,薬剤 4291002,YJコード: 4291002 の投与量,numerical
+87,Column_87,薬剤 4291003,YJコード: 4291003 の投与量,numerical
+88,Column_88,薬剤 4291005,YJコード: 4291005 の投与量,numerical
+89,Column_89,薬剤 4291006,YJコード: 4291006 の投与量,numerical
+90,Column_90,薬剤 4291007,YJコード: 4291007 の投与量,numerical
+91,Column_91,薬剤 4291009,YJコード: 4291009 の投与量,numerical
+92,Column_92,薬剤 4291010,YJコード: 4291010 の投与量,numerical
+93,Column_93,薬剤 4291011,YJコード: 4291011 の投与量,numerical
+94,Column_94,薬剤 4291012,YJコード: 4291012 の投与量,numerical
+95,Column_95,薬剤 4291013,YJコード: 4291013 の投与量,numerical
+96,Column_96,薬剤 4291015,YJコード: 4291015 の投与量,numerical
+97,Column_97,薬剤 4291016,YJコード: 4291016 の投与量,numerical
+98,Column_98,薬剤 4291017,YJコード: 4291017 の投与量,numerical
+99,Column_99,薬剤 4291018,YJコード: 4291018 の投与量,numerical
+100,Column_100,薬剤 4291019,YJコード: 4291019 の投与量,numerical
+101,Column_101,薬剤 4291020,YJコード: 4291020 の投与量,numerical
+102,Column_102,薬剤 4291021,YJコード: 4291021 の投与量,numerical
+103,Column_103,薬剤 4291023,YJコード: 4291023 の投与量,numerical
+104,Column_104,薬剤 4291024,YJコード: 4291024 の投与量,numerical
+105,Column_105,薬剤 4291026,YJコード: 4291026 の投与量,numerical
+106,Column_106,薬剤 4291027,YJコード: 4291027 の投与量,numerical
+107,Column_107,薬剤 4291028,YJコード: 4291028 の投与量,numerical
+108,Column_108,薬剤 4291029,YJコード: 4291029 の投与量,numerical
+109,Column_109,薬剤 4291030,YJコード: 4291030 の投与量,numerical
+110,Column_110,薬剤 4291031,YJコード: 4291031 の投与量,numerical
+111,Column_111,薬剤 4291032,YJコード: 4291032 の投与量,numerical
+112,Column_112,薬剤 4291033,YJコード: 4291033 の投与量,numerical
+113,Column_113,薬剤 4291034,YJコード: 4291034 の投与量,numerical
+114,Column_114,薬剤 4291036,YJコード: 4291036 の投与量,numerical
+115,Column_115,薬剤 4291037,YJコード: 4291037 の投与量,numerical
+116,Column_116,薬剤 4291038,YJコード: 4291038 の投与量,numerical
+117,Column_117,薬剤 4291039,YJコード: 4291039 の投与量,numerical
+118,Column_118,薬剤 4291040,YJコード: 4291040 の投与量,numerical
+119,Column_119,薬剤 4291043,YJコード: 4291043 の投与量,numerical
+120,Column_120,薬剤 4291044,YJコード: 4291044 の投与量,numerical
+121,Column_121,薬剤 4291045,YJコード: 4291045 の投与量,numerical
+122,Column_122,薬剤 4291046,YJコード: 4291046 の投与量,numerical
+123,Column_123,薬剤 4291047,YJコード: 4291047 の投与量,numerical
+124,Column_124,薬剤 4291048,YJコード: 4291048 の投与量,numerical
+125,Column_125,薬剤 4291049,YJコード: 4291049 の投与量,numerical
+126,Column_126,薬剤 4291051,YJコード: 4291051 の投与量,numerical
+127,Column_127,薬剤 4291052,YJコード: 4291052 の投与量,numerical
+128,Column_128,薬剤 4291053,YJコード: 4291053 の投与量,numerical
+129,Column_129,薬剤 4291054,YJコード: 4291054 の投与量,numerical
+130,Column_130,薬剤 4291055,YJコード: 4291055 の投与量,numerical
+131,Column_131,薬剤 4291057,YJコード: 4291057 の投与量,numerical
+132,Column_132,薬剤 4291058,YJコード: 4291058 の投与量,numerical
+133,Column_133,薬剤 4291059,YJコード: 4291059 の投与量,numerical
+134,Column_134,薬剤 4291062,YJコード: 4291062 の投与量,numerical
+135,Column_135,薬剤 4291063,YJコード: 4291063 の投与量,numerical
+136,Column_136,薬剤 4291064,YJコード: 4291064 の投与量,numerical
+137,Column_137,薬剤 4291065,YJコード: 4291065 の投与量,numerical
+138,Column_138,薬剤 4291066,YJコード: 4291066 の投与量,numerical
+139,Column_139,薬剤 4291068,YJコード: 4291068 の投与量,numerical
+140,Column_140,薬剤 4291069,YJコード: 4291069 の投与量,numerical
+141,Column_141,薬剤 4291070,YJコード: 4291070 の投与量,numerical
+142,Column_142,薬剤 4291075,YJコード: 4291075 の投与量,numerical
+143,Column_143,薬剤 4291076,YJコード: 4291076 の投与量,numerical
+144,Column_144,薬剤 4291077,YJコード: 4291077 の投与量,numerical
+145,Column_145,薬剤 4291400,YJコード: 4291400 の投与量,numerical
+146,Column_146,薬剤 4291401,YJコード: 4291401 の投与量,numerical
+147,Column_147,薬剤 4291402,YJコード: 4291402 の投与量,numerical
+148,Column_148,薬剤 4291403,YJコード: 4291403 の投与量,numerical
+149,Column_149,薬剤 4291405,YJコード: 4291405 の投与量,numerical
+150,Column_150,薬剤 4291406,YJコード: 4291406 の投与量,numerical
+151,Column_151,薬剤 4291407,YJコード: 4291407 の投与量,numerical
+152,Column_152,薬剤 4291408,YJコード: 4291408 の投与量,numerical
+153,Column_153,薬剤 4291409,YJコード: 4291409 の投与量,numerical
+154,Column_154,薬剤 4291410,YJコード: 4291410 の投与量,numerical
+155,Column_155,薬剤 4291412,YJコード: 4291412 の投与量,numerical
+156,Column_156,薬剤 4291413,YJコード: 4291413 の投与量,numerical
+157,Column_157,薬剤 4291415,YJコード: 4291415 の投与量,numerical
+158,Column_158,薬剤 4291416,YJコード: 4291416 の投与量,numerical
+159,Column_159,薬剤 4291417,YJコード: 4291417 の投与量,numerical
+160,Column_160,薬剤 4291419,YJコード: 4291419 の投与量,numerical
+161,Column_161,薬剤 4291420,YJコード: 4291420 の投与量,numerical
+162,Column_162,薬剤 4291421,YJコード: 4291421 の投与量,numerical
+163,Column_163,薬剤 4291422,YJコード: 4291422 の投与量,numerical
+164,Column_164,薬剤 4291424,YJコード: 4291424 の投与量,numerical
+165,Column_165,薬剤 4291425,YJコード: 4291425 の投与量,numerical
+166,Column_166,薬剤 4291426,YJコード: 4291426 の投与量,numerical
+167,Column_167,薬剤 4291427,YJコード: 4291427 の投与量,numerical
+168,Column_168,薬剤 4291428,YJコード: 4291428 の投与量,numerical
+169,Column_169,薬剤 4291429,YJコード: 4291429 の投与量,numerical
+170,Column_170,薬剤 4291430,YJコード: 4291430 の投与量,numerical
+171,Column_171,薬剤 4291431,YJコード: 4291431 の投与量,numerical
+172,Column_172,薬剤 4291433,YJコード: 4291433 の投与量,numerical
+173,Column_173,薬剤 4291434,YJコード: 4291434 の投与量,numerical
+174,Column_174,薬剤 4291435,YJコード: 4291435 の投与量,numerical
+175,Column_175,薬剤 4291436,YJコード: 4291436 の投与量,numerical
+176,Column_176,薬剤 4291437,YJコード: 4291437 の投与量,numerical
+177,Column_177,薬剤 4291438,YJコード: 4291438 の投与量,numerical
+178,Column_178,薬剤 4291439,YJコード: 4291439 の投与量,numerical
+179,Column_179,薬剤 4291441,YJコード: 4291441 の投与量,numerical
+180,Column_180,薬剤 4291442,YJコード: 4291442 の投与量,numerical
+181,Column_181,薬剤 4291443,YJコード: 4291443 の投与量,numerical
+182,Column_182,薬剤 4291444,YJコード: 4291444 の投与量,numerical
+183,Column_183,薬剤 4291445,YJコード: 4291445 の投与量,numerical
+184,Column_184,薬剤 4291446,YJコード: 4291446 の投与量,numerical
+185,Column_185,薬剤 4291448,YJコード: 4291448 の投与量,numerical
+186,Column_186,薬剤 4291449,YJコード: 4291449 の投与量,numerical
+187,Column_187,薬剤 4291450,YJコード: 4291450 の投与量,numerical
+188,Column_188,薬剤 4291452,YJコード: 4291452 の投与量,numerical
+189,Column_189,薬剤 4291454,YJコード: 4291454 の投与量,numerical
+190,Column_190,薬剤 4291455,YJコード: 4291455 の投与量,numerical
+191,Column_191,薬剤 4291457,YJコード: 4291457 の投与量,numerical
+192,Column_192,薬剤 4291459,YJコード: 4291459 の投与量,numerical
+193,Column_193,薬剤 4291464,YJコード: 4291464 の投与量,numerical
+194,Column_194,薬剤 4291465,YJコード: 4291465 の投与量,numerical
+195,Column_195,薬剤 4291466,YJコード: 4291466 の投与量,numerical
+196,Column_196,薬剤 4291468,YJコード: 4291468 の投与量,numerical
+197,Column_197,薬剤 4291469,YJコード: 4291469 の投与量,numerical
+198,Column_198,薬剤 4291471,YJコード: 4291471 の投与量,numerical
+199,Column_199,薬剤 4291500,YJコード: 4291500 の投与量,numerical
+200,Column_200,薬剤 4291501,YJコード: 4291501 の投与量,numerical
+201,Column_201,薬剤 4299002,YJコード: 4299002 の投与量,numerical
+202,Column_202,薬剤 4299003,YJコード: 4299003 の投与量,numerical
+203,Column_203,薬剤 4299100,YJコード: 4299100 の投与量,numerical
+204,Column_204,薬剤 4299400,YJコード: 4299400 の投与量,numerical
+205,Column_205,薬剤 4299404,YJコード: 4299404 の投与量,numerical
+206,Column_206,薬剤 4299406,YJコード: 4299406 の投与量,numerical
+207,Column_207,薬剤 4900402,YJコード: 4900402 の投与量,numerical
+208,Column_208,薬剤 4900404,YJコード: 4900404 の投与量,numerical
+209,Column_209,薬剤 6391700,YJコード: 6391700 の投与量,numerical
+210,Column_210,薬剤 6399402,YJコード: 6399402 の投与量,numerical
+211,Column_211,薬剤 6399413,YJコード: 6399413 の投与量,numerical
+212,Column_212,薬剤 6399421,YJコード: 6399421 の投与量,numerical
+213,Column_213,薬剤 6399423,YJコード: 6399423 の投与量,numerical
+214,Column_214,薬剤 6399424,YJコード: 6399424 の投与量,numerical
+215,Column_215,薬剤 6399425,YJコード: 6399425 の投与量,numerical
+216,Column_216,薬剤 6399427,YJコード: 6399427 の投与量,numerical
+217,Column_217,薬剤 6399429,YJコード: 6399429 の投与量,numerical
+218,Column_218,予防的G-CSF使用量,TOTAL_GLAS_PREDOSE (G-CSF製剤の使用量),numerical
+219,Column_219,性別,"0: 女性, 1: 男性",binary
+220,Column_220,診断名 C,診断コード: C,binary
+221,Column_221,診断名 C00,診断コード: C00,binary
+222,Column_222,診断名 C01,診断コード: C01,binary
+223,Column_223,診断名 C02,診断コード: C02,binary
+224,Column_224,診断名 C03,診断コード: C03,binary
+225,Column_225,診断名 C04,診断コード: C04,binary
+226,Column_226,診断名 C05,診断コード: C05,binary
+227,Column_227,診断名 C06,診断コード: C06,binary
+228,Column_228,診断名 C07,診断コード: C07,binary
+229,Column_229,診断名 C08,診断コード: C08,binary
+230,Column_230,診断名 C09,診断コード: C09,binary
+231,Column_231,診断名 C10,診断コード: C10,binary
+232,Column_232,診断名 C11,診断コード: C11,binary
+233,Column_233,診断名 C12,診断コード: C12,binary
+234,Column_234,診断名 C13,診断コード: C13,binary
+235,Column_235,診断名 C15,診断コード: C15,binary
+236,Column_236,診断名 C16,診断コード: C16,binary
+237,Column_237,診断名 C17,診断コード: C17,binary
+238,Column_238,診断名 C18,診断コード: C18,binary
+239,Column_239,診断名 C19,診断コード: C19,binary
+240,Column_240,診断名 C20,診断コード: C20,binary
+241,Column_241,診断名 C21,診断コード: C21,binary
+242,Column_242,診断名 C22,診断コード: C22,binary
+243,Column_243,診断名 C23,診断コード: C23,binary
+244,Column_244,診断名 C24,診断コード: C24,binary
+245,Column_245,診断名 C25,診断コード: C25,binary
+246,Column_246,診断名 C26,診断コード: C26,binary
+247,Column_247,診断名 C30,診断コード: C30,binary
+248,Column_248,診断名 C31,診断コード: C31,binary
+249,Column_249,診断名 C32,診断コード: C32,binary
+250,Column_250,診断名 C33,診断コード: C33,binary
+251,Column_251,診断名 C34,診断コード: C34,binary
+252,Column_252,診断名 C37,診断コード: C37,binary
+253,Column_253,診断名 C38,診断コード: C38,binary
+254,Column_254,診断名 C40,診断コード: C40,binary
+255,Column_255,診断名 C41,診断コード: C41,binary
+256,Column_256,診断名 C42,診断コード: C42,binary
+257,Column_257,診断名 C44,診断コード: C44,binary
+258,Column_258,診断名 C47,診断コード: C47,binary
+259,Column_259,診断名 C48,診断コード: C48,binary
+260,Column_260,診断名 C49,診断コード: C49,binary
+261,Column_261,診断名 C50,診断コード: C50,binary
+262,Column_262,診断名 C51,診断コード: C51,binary
+263,Column_263,診断名 C52,診断コード: C52,binary
+264,Column_264,診断名 C53,診断コード: C53,binary
+265,Column_265,診断名 C54,診断コード: C54,binary
+266,Column_266,診断名 C56,診断コード: C56,binary
+267,Column_267,診断名 C57,診断コード: C57,binary
+268,Column_268,診断名 C58,診断コード: C58,binary
+269,Column_269,診断名 C60,診断コード: C60,binary
+270,Column_270,診断名 C61,診断コード: C61,binary
+271,Column_271,診断名 C62,診断コード: C62,binary
+272,Column_272,診断名 C63,診断コード: C63,binary
+273,Column_273,診断名 C64,診断コード: C64,binary
+274,Column_274,診断名 C65,診断コード: C65,binary
+275,Column_275,診断名 C66,診断コード: C66,binary
+276,Column_276,診断名 C67,診断コード: C67,binary
+277,Column_277,診断名 C68,診断コード: C68,binary
+278,Column_278,診断名 C69,診断コード: C69,binary
+279,Column_279,診断名 C70,診断コード: C70,binary
+280,Column_280,診断名 C71,診断コード: C71,binary
+281,Column_281,診断名 C72,診断コード: C72,binary
+282,Column_282,診断名 C73,診断コード: C73,binary
+283,Column_283,診断名 C74,診断コード: C74,binary
+284,Column_284,診断名 C75,診断コード: C75,binary
+285,Column_285,診断名 C76,診断コード: C76,binary
+286,Column_286,診断名 C77,診断コード: C77,binary
+287,Column_287,診断名 C80,診断コード: C80,binary
