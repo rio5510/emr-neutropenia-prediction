@@ -463,3 +463,40 @@ def check_step2_inputs(step1_out_dir: str) -> pd.DataFrame:
                          "mixed_types": c in mixed, "pct_numeric_parseable": None if num_ok is None else round(100 * num_ok, 2),
                          "null_pct": round(100 * s.isna().mean(), 2)})
     return pd.DataFrame(rows)
+
+
+# --------------------------------------------------------------------------------------
+# Units / value scale (a type change may come with a unit change)
+# --------------------------------------------------------------------------------------
+def lab_unit_summary(base_dir: str, items=("  NEUT#", "  WBC"), max_batches: int | None = None) -> pd.DataFrame:
+    """Unit strings and value distribution of ANC / WBC (thresholds 0.5 / 1.0 assume 10^3/uL)."""
+    files = find_files(base_dir, "MDV_SAMPLE_RSLT")
+    if max_batches:
+        files = dict(list(files.items())[:max_batches])
+    parts = []
+    for p in files.values():
+        d = pd.read_parquet(p, columns=["EXAM_ITEM", "RESULT_UNIT", "RESULT_NUM"])
+        d = d[d["EXAM_ITEM"].astype(str).isin(items)]
+        d["RESULT_NUM"] = pd.to_numeric(d["RESULT_NUM"], errors="coerce")
+        parts.append(d)
+    d = pd.concat(parts) if parts else pd.DataFrame(columns=["EXAM_ITEM", "RESULT_UNIT", "RESULT_NUM"])
+    g = d.groupby(["EXAM_ITEM", "RESULT_UNIT"], dropna=False)["RESULT_NUM"]
+    return g.describe(percentiles=[.05, .5, .95]).reset_index()
+
+
+def dose_unit_summary(base_dir: str, table: str = "MDV_INJECTION", unit_col: str = "EXEC_UNIT",
+                      top: int = 15, max_batches: int | None = None) -> pd.Series:
+    files = find_files(base_dir, table)
+    if max_batches:
+        files = dict(list(files.items())[:max_batches])
+    cnt = Counter()
+    for p in files.values():
+        cols = [c for c in [unit_col, "ANTI_CANCER_FLG"] if c in pq.ParquetFile(p).schema_arrow.names]
+        d = pd.read_parquet(p, columns=cols)
+        if "ANTI_CANCER_FLG" in d:
+            d = d[d["ANTI_CANCER_FLG"] == "＋"]
+        if unit_col in d:
+            cnt.update(d[unit_col].astype(str))
+        else:
+            cnt.update({f"<{unit_col} missing>": len(d)})
+    return pd.Series(dict(cnt.most_common(top)), name="count")

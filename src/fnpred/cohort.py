@@ -65,9 +65,14 @@ class CohortConfig:
 # Loading / basic preparation
 # --------------------------------------------------------------------------------------
 def load_step1(input_dir: str) -> dict[str, pd.DataFrame]:
+    """Read the step 1 outputs and fix column types (numerics -> float64, dates -> datetime64).
+
+    Safe to run on files written before step 1 applied ``normalize_types`` (e.g. 2026 extract).
+    """
+    from .dtypes import normalize_types
     dfs = {}
     for k, fn in FILE_NAMES.items():
-        dfs[k] = pd.read_parquet(os.path.join(input_dir, fn))
+        dfs[k] = normalize_types(pd.read_parquet(os.path.join(input_dir, fn)), name=fn)
         print(f"loaded {k:6s} {len(dfs[k]):>12,} rows  <- {fn}")
     return dfs
 
