@@ -12,15 +12,28 @@ Changes from the initial submission (reviewer comments in brackets):
 * Every exclusion step is recorded (patients / administration days / reason), so excluded and
   included patients can be compared [R1-M4, R2-M3]. Partial missingness that is imputed later
   (step 3) is reported separately from exclusions [R1-m6].
-* Cancer-type flags are built *as of each administration date* (diagnoses registered on or
-  before DO_DATE) instead of from the patient's whole history [R2-m3, R2-m4].
-* Haematological diagnoses made after a solid-tumour diagnosis are counted, and the handling of
-  administration days after such a diagnosis is configurable [R2-m4].
+* Cancer-type flags are built *as of each administration date* (diagnoses with DIAGNOSIS_DATE_2
+  on or before DO_DATE) instead of from the patient's whole history, so a cancer diagnosed after
+  the administration date is never flagged. Diagnoses without a date are not flagged
+  (``undated_dx_flag``) [R2-m3, R2-m4].
+* Haematological diagnoses made after a solid-tumour diagnosis are counted, and administration
+  days on or after the first such diagnosis (DIAGNOSIS_DATE_2 <= DO_DATE) are excluded
+  (``heme_post_dx_policy="exclude_days"``; ``"include"`` keeps them as in the initial code) [R2-m4].
+* Baseline WBC and ANC are each taken from their own latest measurement on or before DO_DATE
+  (``lab_mode="per_item"``); the initial code took both from the latest date with either, so ANC
+  was missing whenever that day had no differential. Days since each measurement are added as
+  features (``daysLastWBC``, ``daysLastNEUT#``). Vital signs are handled the same way
+  (``vital_mode="per_item"``; ``daysLastTEMPR``, ``daysLastPULSE``, ...).
+* Same-day laboratory values (DO_DATE = Day 1, drawn before administration) stay as features
+  (``lab_feature_same_day=True``), and the outcome window starts on Day 2
+  (``event_window_start_day=2``), so the same ANC can no longer be both a feature and an outcome.
+  The initial code counted Day 1 in the outcome window as well. Events already present on Day 1
+  are kept as ``Y_day1_grade4`` / ``Y_day1_fn`` / ``Y_day1_gcsf`` (not features) to report how many
+  events the change removes. Decided by the authors on 2026-11-25.
 
-Behaviour intentionally unchanged (pending the authors' decision):
-the event window starts on Day 1 (``event_window_start_day``), G-CSF agents are classified as
-therapeutic / prophylactic by drug code, and the prophylactic G-CSF feature sums doses given on
-the 2 days before DO_DATE (``pre_gcsf_days``; the manuscript says 3 days).
+Behaviour kept from the initial code (authors' decision, 2026-11-25): G-CSF agents are classified
+as therapeutic / prophylactic by drug code, and the prophylactic G-CSF feature sums doses given on
+the 2 days before DO_DATE (``pre_gcsf_days``).
 """
 from __future__ import annotations
 
@@ -50,11 +63,15 @@ class CohortConfig:
     th_neut_severe: float = 0.5           # Grade 4 (x10^9/L)
     th_neut_fn: float = 1.0
     th_fever: float = 37.5                # manuscript / JSCO guideline (initial code used 38.5)
-    event_window_start_day: int = 1       # Day 1 = DO_DATE (unchanged; see module docstring)
+    event_window_start_day: int = 2       # Day 1 = DO_DATE; revision counts events from Day 2 (initial submission: 1)
     event_window_end_day: int = 28
     pre_gcsf_days: int = 2                # DO_DATE-2 .. DO_DATE-1 (reproduces the initial code)
     cancer_flag_mode: str = "as_of_date"  # "as_of_date" (revision) | "ever" (initial submission)
-    heme_post_dx_policy: str = "include"  # "include" | "exclude_days"
+    undated_dx_flag: bool = False         # as_of_date only: True flags diagnoses without DIAGNOSIS_DATE_2
+    heme_post_dx_policy: str = "exclude_days"  # "exclude_days" (revision) | "include" (initial submission)
+    lab_mode: str = "per_item"            # "per_item" (revision) | "same_day" (initial submission)
+    vital_mode: str = "per_item"          # "per_item" (revision) | "same_day" (initial submission)
+    lab_feature_same_day: bool = True     # True: DO_DATE (pre-administration) labs used as features
     vital_cols: tuple = ("TEMPR", "PULSE", "RESP", "BPH", "BPL")
 
     def to_json(self) -> str:
@@ -156,27 +173,62 @@ def make_labels(base, exam_d, vital, gcsf_t, cfg: CohortConfig) -> pd.DataFrame:
     res["Event_no_gcsf"] = ((res["Event_grade4"] + res["Event_fn"]) > 0).astype(int)
     res["Event"] = ((res["Event_no_gcsf"] + res["Event_gcsf"]) > 0).astype(int)
     res["Y_fu_lab_days"] = out["lab"].astype(int)   # days with ANC/WBC in the window (not a feature)
+
+    # Events already present on Day 1 (DO_DATE), whatever the window: to report the effect of
+    # starting the window on Day 2. "Y_" columns are never used as features.
+    d1 = base.merge(daily, on="hs", how="inner")
+    d1 = d1[d1["DATE"] == d1["DO_DATE"]].groupby(["hs", "DO_DATE"])[["g4", "fn"]].sum()
+    g1 = base.merge(gcsf_t, on="hs", how="inner")
+    g1 = g1[(g1["GCSF_DATE"] == g1["DO_DATE"]) & (g1["EXEC_DOSE"] > 0)].groupby(["hs", "DO_DATE"]).size().rename("gcsf")
+    d1 = base.set_index(["hs", "DO_DATE"]).join(d1).join(g1).fillna(0)
+    res["Y_day1_grade4"] = (d1["g4"] > 0).astype(int)
+    res["Y_day1_fn"] = (d1["fn"] > 0).astype(int)
+    res["Y_day1_gcsf"] = (d1["gcsf"] > 0).astype(int)
     return res.reset_index()
 
 
 # --------------------------------------------------------------------------------------
 # Features
 # --------------------------------------------------------------------------------------
-def _asof(base: pd.DataFrame, src: pd.DataFrame, date_col: str, cols: list[str]) -> pd.DataFrame:
-    """Latest record on or before DO_DATE (same-day records included, as in the initial code)."""
+def _asof(base: pd.DataFrame, src: pd.DataFrame, date_col: str, cols: list[str],
+          same_day: bool = True) -> pd.DataFrame:
+    """Latest record on or before DO_DATE (``same_day=True``, as in the initial code) or
+    strictly before DO_DATE (``same_day=False``)."""
     src = src.dropna(subset=[date_col]).sort_values(date_col)
     out = pd.merge_asof(base.sort_values("DO_DATE"), src[["hs", date_col] + list(cols)],
                         left_on="DO_DATE", right_on=date_col, by="hs",
-                        direction="backward", allow_exact_matches=True)
+                        direction="backward", allow_exact_matches=same_day)
     return out.drop(columns=[date_col])
+
+
+def _asof_per_item(base: pd.DataFrame, daily: pd.DataFrame, items: dict,
+                   same_day: bool = True) -> pd.DataFrame:
+    """Latest non-missing value of each item on or before DO_DATE (or strictly before it when
+    ``same_day=False``), taken separately per item.
+
+    ``daily`` has one row per (hs, DATE); ``items`` maps its column to the output feature name.
+    Adds ``<name>`` and ``daysLast<suffix>`` (DO_DATE minus measurement date; 0 = same day),
+    where ``<suffix>`` is ``name`` without a leading ``last``.
+    """
+    f = base
+    for col, name in items.items():
+        src = (daily.loc[daily[col].notna(), ["hs", "DATE", col]]
+               .rename(columns={col: name, "DATE": "_SRC_DATE"}))
+        src["_meas_date"] = src["_SRC_DATE"]
+        f = _asof(f, src, "_SRC_DATE", [name, "_meas_date"], same_day=same_day)
+        suffix = name[4:] if name.startswith("last") else name
+        f[f"daysLast{suffix}"] = (f["DO_DATE"] - f.pop("_meas_date")).dt.days
+    return f
 
 
 def cancer_flags(base, cancer, cfg: CohortConfig) -> pd.DataFrame:
     c = cancer[["hs", "DX3", "DX_DATE"]].drop_duplicates()
     m = base.merge(c, on="hs", how="inner")
     if cfg.cancer_flag_mode == "as_of_date":
-        # Diagnoses registered on or before the administration date; undated diagnoses are kept.
-        m = m[m["DX_DATE"].isna() | (m["DX_DATE"] <= m["DO_DATE"])]
+        # Only diagnoses with DIAGNOSIS_DATE_2 on or before the administration date (same day included).
+        # Undated diagnoses cannot be shown to precede DO_DATE and are dropped unless undated_dx_flag.
+        known_before = m["DX_DATE"].notna() & (m["DX_DATE"] <= m["DO_DATE"])
+        m = m[known_before | (cfg.undated_dx_flag & m["DX_DATE"].isna())]
     elif cfg.cancer_flag_mode != "ever":
         raise ValueError(cfg.cancer_flag_mode)
     w = pd.crosstab([m["hs"], m["DO_DATE"]], m["DX3"]).clip(upper=1)
@@ -185,9 +237,22 @@ def cancer_flags(base, cancer, cfg: CohortConfig) -> pd.DataFrame:
 
 
 def make_features(base, dfs, chemo, gcsf_p, exam_d, vital, cancer, cfg: CohortConfig) -> pd.DataFrame:
-    # Laboratory: latest date with WBC or ANC (daily minimum)
-    ex = exam_d.rename(columns={"NEUT": "lastNEUT#", "WBC": "lastWBC", "DATE": "EX_DATE"}).assign(_has_lab=1)
-    f = _asof(base, ex, "EX_DATE", ["lastNEUT#", "lastWBC", "_has_lab"])
+    # Laboratory (daily minimum). With lab_feature_same_day (revision default) DO_DATE labs, drawn
+    # before administration, are features and the outcome window starts on Day 2; otherwise the
+    # feature window ends the day before DO_DATE.
+    lab_same_day = cfg.lab_feature_same_day
+    if cfg.lab_mode == "per_item":
+        # Latest value of each item separately, plus days since that measurement, so a day with
+        # WBC but no differential does not hide an earlier ANC.
+        f = _asof_per_item(base, exam_d, {"NEUT": "lastNEUT#", "WBC": "lastWBC"}, same_day=lab_same_day)
+        f["_has_lab"] = np.where(f["lastNEUT#"].notna() | f["lastWBC"].notna(), 1, np.nan)
+    elif cfg.lab_mode == "same_day":
+        # Initial submission: values from the latest date with WBC or ANC (ANC missing if that
+        # day has no differential)
+        ex = exam_d.rename(columns={"NEUT": "lastNEUT#", "WBC": "lastWBC", "DATE": "EX_DATE"}).assign(_has_lab=1)
+        f = _asof(base, ex, "EX_DATE", ["lastNEUT#", "lastWBC", "_has_lab"], same_day=lab_same_day)
+    else:
+        raise ValueError(cfg.lab_mode)
     # Age from the chemotherapy record (first value if several on the same day)
     f = f.merge(chemo.groupby(["hs", "DO_DATE"])["AGE"].first().reset_index(), on=["hs", "DO_DATE"], how="left")
     # Somatometry: forward-filled within patient, daily median, latest date
@@ -197,11 +262,19 @@ def make_features(base, dfs, chemo, gcsf_p, exam_d, vital, cancer, cfg: CohortCo
     s[["MS_HEIGHT", "MS_WEIGHT"]] = s.groupby("hs")[["MS_HEIGHT", "MS_WEIGHT"]].ffill()
     s = s.groupby(["hs", "SOMA_DATE"])[["MS_HEIGHT", "MS_WEIGHT"]].median().reset_index().assign(_has_soma=1)
     f = _asof(f, s, "SOMA_DATE", ["MS_HEIGHT", "MS_WEIGHT", "_has_soma"])
-    # Vital signs: latest date, median of that day's records
+    # Vital signs: median of each day's records, on or before DO_DATE
     vcols = [c for c in cfg.vital_cols if c in vital.columns]
-    v = (vital.groupby(["hs", "DATE"])[vcols].median().reset_index()
-         .rename(columns={"DATE": "V_DATE"}).assign(_has_vital=1))
-    f = _asof(f, v, "V_DATE", vcols + ["_has_vital"])
+    vd = vital.groupby(["hs", "DATE"])[vcols].median().reset_index()
+    if cfg.vital_mode == "per_item":
+        # Latest value of each vital sign separately, plus days since that measurement
+        f = _asof_per_item(f, vd, {c: c for c in vcols})
+        f["_has_vital"] = np.where(f[vcols].notna().any(axis=1), 1, np.nan)
+    elif cfg.vital_mode == "same_day":
+        # Initial submission: all vital signs from the latest date with any vital record
+        v = vd.rename(columns={"DATE": "V_DATE"}).assign(_has_vital=1)
+        f = _asof(f, v, "V_DATE", vcols + ["_has_vital"])
+    else:
+        raise ValueError(cfg.vital_mode)
     # Chemotherapy doses on DO_DATE, by drug code (wide)
     dose = chemo.groupby(["hs", "DO_DATE", "DRUG_CD"])["EXEC_DOSE"].sum().unstack(fill_value=0)
     dose.columns = [str(c) for c in dose.columns]
@@ -314,7 +387,7 @@ def build_cohort(dfs: dict, cfg: CohortConfig, verbose: bool = True) -> CohortRe
                    .query("n_missing > 0").sort_values("n_missing", ascending=False))
     keep_cols = ["hs", "DO_DATE", "exclusion_reason", "after_heme_dx", "AGE", "PT_SEX",
                  "MS_HEIGHT", "MS_WEIGHT", "lastWBC", "lastNEUT#", "Y_fu_lab_days"] + \
-                [c for c in d.columns if c.startswith("Event")]
+                [c for c in d.columns if c.startswith(("daysLast", "Event"))]
     all_days = d[keep_cols].copy()
     if verbose:
         print(attrition.to_string(index=False))
